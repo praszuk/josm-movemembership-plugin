@@ -8,9 +8,12 @@ import org.openstreetmap.josm.data.UndoRedoHandler;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
+import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Logging;
+import org.openstreetmap.josm.tools.Shortcut;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +31,20 @@ public class MoveMembershipsAction extends JosmAction {
     private OsmPrimitive destination;
 
     public MoveMembershipsAction() {
-        super(TITLE, null, DESCRIPTION, null, true);
+        super(
+            TITLE,
+            (ImageProvider) null,
+            DESCRIPTION,
+            Shortcut.registerShortcut(
+                "movemembership:show",
+                tr("Open MoveMembership dialog"),
+                KeyEvent.CHAR_UNDEFINED,
+                Shortcut.NONE
+            ),
+            true,
+            TITLE,
+            false
+        );
     }
 
     /**
