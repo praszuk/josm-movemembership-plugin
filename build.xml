@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="movemembership" default="dist" basedir=".">
+
+    <property name="plugin.description" value="."/>
+    <property file="${basedir}/gradle.properties"/>
+
+    <import file="../build-common.xml"/>
+
+</project>
