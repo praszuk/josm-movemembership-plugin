@@ -45,6 +45,7 @@ public class MoveMembershipsAction extends JosmAction {
             TITLE,
             false
         );
+        setEnabled(false);
     }
 
     /**
