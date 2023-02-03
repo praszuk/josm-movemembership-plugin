@@ -107,8 +107,6 @@ public class MoveMembershipsAction extends JosmAction {
 
         SequenceCommand cmd = new SequenceCommand(tr("Move object memberships"), commands);
         UndoRedoHandler.getInstance().add(cmd);
-
-        System.out.println(sourceRelations);
     }
 
     protected boolean selectSourcePrimitive(){
