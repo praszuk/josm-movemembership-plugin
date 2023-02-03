@@ -68,6 +68,10 @@ public class MoveMembershipsAction extends JosmAction {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        // Reset selection
+        this.source = null;
+        this.destination = null;
+
         // Pre-selection
         Collection<OsmPrimitive> selection = getLayerManager().getEditDataSet().getSelected();
         if (selection.size() == 2){
