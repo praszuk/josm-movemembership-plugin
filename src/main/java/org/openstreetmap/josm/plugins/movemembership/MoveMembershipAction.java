@@ -1,5 +1,14 @@
 package org.openstreetmap.josm.plugins.movemembership;
 
+import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
+import static org.openstreetmap.josm.tools.I18n.tr;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.command.ChangeMembersCommand;
 import org.openstreetmap.josm.command.Command;
@@ -8,29 +17,17 @@ import org.openstreetmap.josm.data.UndoRedoHandler;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Logging;
 import org.openstreetmap.josm.tools.Shortcut;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
-import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
-import static org.openstreetmap.josm.tools.I18n.tr;
-
-
-public class MoveMembershipsAction extends JosmAction {
+public class MoveMembershipAction extends JosmAction {
     static final String DESCRIPTION = tr("Move object relations memberships to another object.");
     static final String TITLE = tr("Move object memberships");
 
-    private OsmPrimitive source;
-    private OsmPrimitive destination;
-
-    public MoveMembershipsAction() {
+    public MoveMembershipAction() {
         super(
             TITLE,
             (ImageProvider) null,
@@ -48,12 +45,25 @@ public class MoveMembershipsAction extends JosmAction {
         setEnabled(false);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        MoveMembershipModel model = new MoveMembershipModel();
+        // Pre-selection
+        Collection<OsmPrimitive> selection = getLayerManager().getEditDataSet().getSelected();
+        if (selection.size() == 2){
+            OsmPrimitive[] primitives = selection.toArray(OsmPrimitive[]::new);
+            model.setSource(primitives[0]);
+            model.setDestination(primitives[1]);
+        }
+        new MoveMembershipController(new MoveMembershipView(), model).initGui();
+    }
+
     /**
      * @return selected 1 primitive or null if there is no selection or selection > 1
      */
-    private OsmPrimitive getOneSelectedPrimitive() {
-        Collection<OsmPrimitive> primitives = getLayerManager().getEditDataSet().getSelected();
-        if (primitives.size() == 0){
+    public static OsmPrimitive getOneSelectedPrimitive() {
+        Collection<OsmPrimitive> primitives = MainApplication.getLayerManager().getEditDataSet().getSelected();
+        if (primitives.isEmpty()){
             Logging.info("No primitive selected");
             return null;
         }
@@ -62,33 +72,20 @@ public class MoveMembershipsAction extends JosmAction {
             return null;
         }
 
-
         return primitives.stream().findFirst().get();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        // Reset selection
-        this.source = null;
-        this.destination = null;
-
-        // Pre-selection
-        Collection<OsmPrimitive> selection = getLayerManager().getEditDataSet().getSelected();
-        if (selection.size() == 2){
-            OsmPrimitive[] primitives = selection.toArray(OsmPrimitive[]::new);
-            this.source = primitives[0];
-            this.destination = primitives[1];
-        }
-
-        new MoveMembershipsGUI(this);
-    }
-
-    protected void move(){
+    public static void move(OsmPrimitive source, OsmPrimitive destination){
         if (source == null || destination == null){
             Logging.warn("Move action canceled. Source or destination object is null!");
             return;
         }
+
         Set<Relation> sourceRelations = getParentRelations(List.of(source));
+        if (sourceRelations.isEmpty()) {
+            Logging.info("Move action canceled. Source object is not a member of any relation!");
+            return;
+        }
 
         List<Command> commands = new ArrayList<>();
         for (Relation sourceRel : sourceRelations){
@@ -107,31 +104,5 @@ public class MoveMembershipsAction extends JosmAction {
 
         SequenceCommand cmd = new SequenceCommand(tr("Move object memberships"), commands);
         UndoRedoHandler.getInstance().add(cmd);
-    }
-
-    protected boolean selectSourcePrimitive(){
-        OsmPrimitive primitive = this.getOneSelectedPrimitive();
-        if (primitive != null){
-            this.source = primitive;
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean selectDestinationPrimitive(){
-        OsmPrimitive primitive = this.getOneSelectedPrimitive();
-        if (primitive != null){
-            this.destination = primitive;
-            return true;
-        }
-        return false;
-    }
-
-    public OsmPrimitive getDestination() {
-        return destination;
-    }
-
-    public OsmPrimitive getSource() {
-        return source;
     }
 }

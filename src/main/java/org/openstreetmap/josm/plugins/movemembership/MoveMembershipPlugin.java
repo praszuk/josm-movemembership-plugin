@@ -7,16 +7,19 @@ import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 
 public class MoveMembershipPlugin extends Plugin {
-    private final MoveMembershipsAction moveMembershipsAction;
+    private final MoveMembershipAction moveMembershipAction;
+
     public MoveMembershipPlugin(PluginInformation info) {
         super(info);
-        moveMembershipsAction = new MoveMembershipsAction();
-        MainMenu.add(MainApplication.getMenu().selectionMenu, moveMembershipsAction);
+
+        moveMembershipAction = new MoveMembershipAction();
+        MainMenu.add(MainApplication.getMenu().selectionMenu, moveMembershipAction);
     }
 
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         super.mapFrameInitialized(oldFrame, newFrame);
-        moveMembershipsAction.setEnabled(newFrame != null);
+
+        moveMembershipAction.setEnabled(newFrame != null);
     }
 }
