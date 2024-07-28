@@ -104,7 +104,7 @@ public class MoveMembershipAction extends JosmAction {
 
         Set<Relation> sourceRelations = getParentRelations(List.of(source))
             .stream()
-            .filter(relation -> relationIds.contains(relation.getId()))
+            .filter(relation -> relationIds.contains(relation.getUniqueId()))
             .collect(Collectors.toSet());
 
         if (sourceRelations.isEmpty()) {

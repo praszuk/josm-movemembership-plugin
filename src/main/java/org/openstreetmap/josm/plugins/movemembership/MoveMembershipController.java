@@ -55,7 +55,7 @@ public class MoveMembershipController {
         if (model.getSource() != null) {
             getParentRelations(List.of(model.getSource())).forEach(relation -> relationTableModel.addRow(
                     true,
-                    relation.getId(),
+                    relation.getUniqueId(),
                     String.join(",", getOsmPrimitiveRolesInRelation(relation, model.getSource())),
                     getOsmPrimitivePositionsInRelation(relation, model.getSource()).stream()
                         .map(Object::toString)
