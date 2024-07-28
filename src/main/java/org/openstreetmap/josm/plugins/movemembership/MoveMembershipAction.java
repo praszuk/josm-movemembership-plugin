@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.openstreetmap.josm.actions.JosmAction;
 import org.openstreetmap.josm.command.ChangeMembersCommand;
 import org.openstreetmap.josm.command.Command;
@@ -75,13 +76,37 @@ public class MoveMembershipAction extends JosmAction {
         return primitives.stream().findFirst().get();
     }
 
-    public static void move(OsmPrimitive source, OsmPrimitive destination){
+    public static List<Integer> getOsmPrimitivePositionsInRelation(Relation relation, OsmPrimitive primitive) {
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < relation.getMembers().size(); i++){
+            if (relation.getMember(i).getMember().equals(primitive)) {
+                positions.add(i + 1);
+            }
+        }
+        return positions;
+    }
+
+    public static List<String> getOsmPrimitiveRolesInRelation(Relation relation, OsmPrimitive primitive) {
+        List<String> roles = new ArrayList<>();
+        for (int i = 0; i < relation.getMembers().size(); i++){
+            if (relation.getMember(i).getMember().equals(primitive)) {
+                roles.add(relation.getMember(i).getRole());
+            }
+        }
+        return roles;
+    }
+
+    public static void move(OsmPrimitive source, OsmPrimitive destination, List<Long> relationIds){
         if (source == null || destination == null){
             Logging.warn("Move action canceled. Source or destination object is null!");
             return;
         }
 
-        Set<Relation> sourceRelations = getParentRelations(List.of(source));
+        Set<Relation> sourceRelations = getParentRelations(List.of(source))
+            .stream()
+            .filter(relation -> relationIds.contains(relation.getId()))
+            .collect(Collectors.toSet());
+
         if (sourceRelations.isEmpty()) {
             Logging.info("Move action canceled. Source object is not a member of any relation!");
             return;

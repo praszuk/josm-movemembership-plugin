@@ -2,52 +2,42 @@ package org.openstreetmap.josm.plugins.movemembership;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import org.openstreetmap.josm.gui.MainApplication;
 
 public class MoveMembershipView extends JFrame {
-    final static int HEIGHT = 135;
+    final static int HEIGHT = 335;
     final static int WIDTH = 670;
 
     private final JButton sourceBtn = new JButton();
     private final JButton destinationBtn = new JButton();
     private final JButton moveBtn = new JButton(tr("Move"));
+    private final JTable relationTable = new JTable();
 
     public void initView() {
         setSize(WIDTH, HEIGHT);
         setTitle(MoveMembershipAction.TITLE);
         setLocationRelativeTo(MainApplication.getMainFrame());
 
-        JPanel root = new JPanel(new GridBagLayout());
+        JPanel rootPanel = new JPanel(new BorderLayout());
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1;
-        c.weighty = 2;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(0, 5, 0, 5);
+        rootPanel.add(createSourceDestinationButtonsPanel(), BorderLayout.NORTH);
+        rootPanel.add(createRelationTablePanel(), BorderLayout.CENTER);
+        rootPanel.add(createMoveButtonPanel(), BorderLayout.SOUTH);
 
-        root.add(createSourceDestinationButtonsPanel(), c);
-
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.weighty = 1;
-        c.gridx = 0;
-        c.gridy = 2;
-        root.add(createMoveButtonPanel(), c);
-
-        add(root);
+        add(rootPanel);
         setVisible(true);
         setAlwaysOnTop(true);
     }
@@ -66,10 +56,17 @@ public class MoveMembershipView extends JFrame {
     }
 
     private JPanel createMoveButtonPanel() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         moveBtn.setEnabled(false);
         panel.add(moveBtn);
+
+        return panel;
+    }
+
+    private JPanel createRelationTablePanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(new JScrollPane(relationTable), BorderLayout.CENTER);
 
         return panel;
     }
@@ -98,5 +95,36 @@ public class MoveMembershipView extends JFrame {
     }
     public void destinationBtnSetText(String text) {
         destinationBtn.setText(text);
+    }
+
+    public void setRelationTableModel(TableModel model) {
+        relationTable.setModel(model);
+    }
+
+    public void autoResizeColumns() {
+        for (int columnIndex = 0; columnIndex < relationTable.getColumnCount() - 1; columnIndex++) {
+            int maxCharactersLength = relationTable.getColumnModel()
+                .getColumn(columnIndex)
+                .getHeaderValue()
+                .toString()
+                .length();
+
+            for (int rowIndex = 0; rowIndex < relationTable.getRowCount(); rowIndex++) {
+                maxCharactersLength = Math.max(
+                    maxCharactersLength,
+                    relationTable.getModel().getValueAt(rowIndex, columnIndex).toString().length()
+                );
+            }
+            int width = calculateColumnWidth(relationTable, maxCharactersLength + 3);
+            relationTable.getColumnModel().getColumn(columnIndex).setMinWidth(width);
+            relationTable.getColumnModel().getColumn(columnIndex).setMaxWidth(width);
+        }
+    }
+    public static int calculateColumnWidth(JTable table, int charCount) {
+        FontMetrics fontMetrics = table.getFontMetrics(table.getFont());
+        String sampleString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- ";
+        int stringWidth = fontMetrics.stringWidth(sampleString);
+        int avgCharWidth = stringWidth / sampleString.length();
+        return avgCharWidth * charCount;
     }
 }

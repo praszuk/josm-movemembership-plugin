@@ -1,26 +1,36 @@
 package org.openstreetmap.josm.plugins.movemembership;
 
+import static org.openstreetmap.josm.data.osm.OsmPrimitive.getParentRelations;
 import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction.getOneSelectedPrimitive;
+import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction.getOsmPrimitivePositionsInRelation;
+import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction.getOsmPrimitiveRolesInRelation;
 import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction.move;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 
 public class MoveMembershipController {
     private final MoveMembershipView view;
     private final MoveMembershipModel model;
+    private final RelationTableModel relationTableModel;
 
 
     public MoveMembershipController(MoveMembershipView view, MoveMembershipModel model) {
         this.view = view;
         this.model = model;
+        this.relationTableModel = new RelationTableModel();
 
         initViewListeners();
         initModelListeners();
     }
 
     private void initModelListeners() {
-        model.addPropertyChangeListener(MoveMembershipModel.PROPERTY_CHANGED, evt -> updateButtons());
+        model.addPropertyChangeListener(MoveMembershipModel.PROPERTY_CHANGED, evt -> {
+            updateButtons();
+            updateRelationTable();
+        });
     }
 
     private void initViewListeners() {
@@ -30,7 +40,7 @@ public class MoveMembershipController {
     }
 
     private void moveBtnClicked() {
-        move(model.getSource(), model.getDestination());
+        move(model.getSource(), model.getDestination(), relationTableModel.getCheckedRelationIds());
         view.closeView();
     }
 
@@ -40,9 +50,28 @@ public class MoveMembershipController {
         view.moveBtnSetEnabled(model.getSource() != null && model.getDestination() != null);
     }
 
+    private void updateRelationTable() {
+        relationTableModel.getDataVector().removeAllElements();
+        if (model.getSource() != null) {
+            getParentRelations(List.of(model.getSource())).forEach(relation -> relationTableModel.addRow(
+                    true,
+                    relation.getId(),
+                    String.join(",", getOsmPrimitiveRolesInRelation(relation, model.getSource())),
+                    getOsmPrimitivePositionsInRelation(relation, model.getSource()).stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(",")),
+                    relation.get("type"),
+                    relation.getName()
+            ));
+            view.autoResizeColumns();
+        }
+
+    }
     public void initGui() {
         view.initView();
+        view.setRelationTableModel(relationTableModel);
         updateButtons();
+        updateRelationTable();
     }
 
     public static String getTextForPrimitiveBtn(OsmPrimitive primitive) {
