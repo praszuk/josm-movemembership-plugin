@@ -8,13 +8,14 @@ dependencies {
     testImplementation("org.junit.vintage:junit-vintage-engine:5.8.2")
     testImplementation("org.jmockit:jmockit:1.49")
     testImplementation("org.openstreetmap.josm:josm-unittest:"){changing=true}
+    testImplementation("org.wiremock:wiremock:3.9.1")
     testImplementation("org.awaitility:awaitility:4.2.0")
 }
 
 sourceSets {
     test {
         java {
-            srcDirs = ["test/unit"]
+            srcDirs = ["test/unit", "test/utils"]
         }
         resources {
             srcDirs = ["test/data"]

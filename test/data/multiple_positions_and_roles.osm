@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <node id='-25612' action='modify' visible='true' lat='54.3619481749' lon='18.91808135465'>
+    <tag k='bus' v='yes' />
+    <tag k='name' v='Start stop' />
+    <tag k='public_transport' v='stop_position' />
+  </node>
+  <node id='-25613' action='modify' visible='true' lat='54.36216224566' lon='18.91807278263' />
+  <node id='-25614' action='modify' visible='true' lat='54.36253212052' lon='18.91807001006' />
+  <node id='-25615' action='modify' visible='true' lat='54.36253708471' lon='18.91837548122' />
+  <node id='-25616' action='modify' visible='true' lat='54.36216959122' lon='18.91838231937' />
+  <node id='-25617' action='modify' visible='true' lat='54.36194748908' lon='18.91827374972'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='name' v='Start stop' />
+    <tag k='public_transport' v='platform' />
+  </node>
+  <node id='-25618' action='modify' visible='true' lat='54.36235015707' lon='18.9180724087'>
+    <tag k='bus' v='yes' />
+    <tag k='name' v='Test stop' />
+    <tag k='public_transport' v='stop_position' />
+  </node>
+  <node id='-25619' action='modify' visible='true' lat='54.36235027689' lon='18.91813903893'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='name' v='Test stop' />
+    <tag k='public_transport' v='platform' />
+  </node>
+  <node id='-25620' action='modify' visible='true' lat='54.36236526682' lon='18.91811212995' />
+  <node id='-25621' action='modify' visible='true' lat='54.36231397089' lon='18.9181130045' />
+  <node id='-25622' action='modify' visible='true' lat='54.36231433077' lon='18.91817490039' />
+  <node id='-25623' action='modify' visible='true' lat='54.3623656267' lon='18.91817402592' />
+  <node id='-25624' action='modify' visible='true' lat='54.36234556671' lon='18.91837886696'>
+    <tag k='bus' v='yes' />
+    <tag k='name' v='Another stop' />
+    <tag k='public_transport' v='stop_position' />
+  </node>
+  <node id='-25625' action='modify' visible='true' lat='54.36234559909' lon='18.91831142261'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='name' v='Another stop' />
+    <tag k='public_transport' v='platform' />
+  </node>
+  <node id='-25626' action='modify' visible='true' lat='54.36273549021' lon='18.91806553224'>
+    <tag k='bus' v='yes' />
+    <tag k='name' v='End stop' />
+    <tag k='public_transport' v='stop_position' />
+  </node>
+  <node id='-25627' action='modify' visible='true' lat='54.36273516398' lon='18.9181813281'>
+    <tag k='highway' v='bus_stop' />
+    <tag k='name' v='End stop' />
+    <tag k='public_transport' v='platform' />
+  </node>
+  <way id='-829' action='modify' visible='true'>
+    <nd ref='-25612' />
+    <nd ref='-25613' />
+    <tag k='highway' v='residential' />
+  </way>
+  <way id='-830' action='modify' visible='true'>
+    <nd ref='-25613' />
+    <nd ref='-25618' />
+    <nd ref='-25614' />
+    <tag k='highway' v='residential' />
+  </way>
+  <way id='-831' action='modify' visible='true'>
+    <nd ref='-25614' />
+    <nd ref='-25626' />
+    <tag k='highway' v='residential' />
+  </way>
+  <way id='-832' action='modify' visible='true'>
+    <nd ref='-25614' />
+    <nd ref='-25615' />
+    <nd ref='-25624' />
+    <nd ref='-25616' />
+    <nd ref='-25613' />
+    <tag k='highway' v='residential' />
+  </way>
+  <way id='-833' action='modify' visible='true'>
+    <nd ref='-25620' />
+    <nd ref='-25621' />
+    <nd ref='-25622' />
+    <nd ref='-25623' />
+    <nd ref='-25620' />
+    <tag k='area' v='yes' />
+    <tag k='bus' v='yes' />
+    <tag k='highway' v='platform' />
+    <tag k='name' v='Test stop' />
+  </way>
+  <relation id='-102' action='modify' visible='true'>
+    <member type='node' ref='-25612' role='stop' />
+    <member type='node' ref='-25617' role='platform' />
+    <member type='node' ref='-25618' role='stop' />
+    <member type='way' ref='-833' role='platform1' />
+    <member type='node' ref='-25624' role='stop' />
+    <member type='node' ref='-25625' role='platform' />
+    <member type='node' ref='-25618' role='stop' />
+    <member type='way' ref='-833' role='platform2' />
+    <member type='node' ref='-25626' role='stop' />
+    <member type='node' ref='-25627' role='platform' />
+    <member type='way' ref='-829' role='' />
+    <member type='way' ref='-830' role='' />
+    <member type='way' ref='-832' role='' />
+    <member type='way' ref='-830' role='' />
+    <member type='way' ref='-831' role='' />
+    <tag k='name' v='Test relation' />
+    <tag k='public_transport:version' v='2' />
+    <tag k='route' v='bus' />
+    <tag k='type' v='route' />
+  </relation>
+</osm>
