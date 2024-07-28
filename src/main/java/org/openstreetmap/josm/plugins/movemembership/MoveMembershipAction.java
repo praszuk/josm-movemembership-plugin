@@ -80,7 +80,7 @@ public class MoveMembershipAction extends JosmAction {
         List<Integer> positions = new ArrayList<>();
         for (int i = 0; i < relation.getMembers().size(); i++){
             if (relation.getMember(i).getMember().equals(primitive)) {
-                positions.add(i + 1);
+                positions.add(i);
             }
         }
         return positions;

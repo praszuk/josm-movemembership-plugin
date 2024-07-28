@@ -58,7 +58,7 @@ public class MoveMembershipController {
                     relation.getUniqueId(),
                     String.join(",", getOsmPrimitiveRolesInRelation(relation, model.getSource())),
                     getOsmPrimitivePositionsInRelation(relation, model.getSource()).stream()
-                        .map(Object::toString)
+                        .map(posIndex -> String.valueOf(posIndex + 1))
                         .collect(Collectors.joining(",")),
                     relation.get("type"),
                     relation.getName()
