@@ -3,10 +3,13 @@ package org.openstreetmap.josm.plugins.movemembership;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +29,9 @@ public class MoveMembershipView extends JFrame {
     private final JButton destinationBtn = new JButton();
     private final JButton moveBtn = new JButton(tr("Move"));
     private final JTable relationTable = new JTable();
+    private final JLabel selectAllLabel = new JLabel(tr("Select all"));
+    private final JLabel unselectAllLabel = new JLabel(tr("Unselect all"));
+
 
     public void initView() {
         setSize(WIDTH, HEIGHT);
@@ -67,6 +73,19 @@ public class MoveMembershipView extends JFrame {
 
     private JPanel createRelationTablePanel() {
         JPanel panel = new JPanel(new BorderLayout());
+
+        JPanel selectPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
+
+        selectAllLabel.setForeground(Color.BLUE.darker());
+        selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        unselectAllLabel.setForeground(Color.BLUE.darker());
+        unselectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        selectPanel.add(selectAllLabel);
+        selectPanel.add(new JLabel(" | "));
+        selectPanel.add(unselectAllLabel);
+
+        panel.add(selectPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(relationTable), BorderLayout.CENTER);
 
         return panel;
@@ -89,6 +108,12 @@ public class MoveMembershipView extends JFrame {
     }
     public void moveBtnAddActionListener(ActionListener listener) {
         moveBtn.addActionListener(listener);
+    }
+    public void selectAllLabelAddMouseListener(MouseListener lister) {
+        selectAllLabel.addMouseListener(lister);
+    }
+    public void unselectAllLabelAddMouseListener(MouseListener lister) {
+        unselectAllLabel.addMouseListener(lister);
     }
 
     public void sourceBtnSetText(String text) {

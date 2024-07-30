@@ -58,4 +58,15 @@ public class RelationTableModel extends DefaultTableModel {
             .map(vector -> (long) vector.get(COLUMNS.indexOf(COL_ID)))
             .collect(Collectors.toList());
     }
+
+    public void selectAll() {
+        for (int i = 0; i < getRowCount(); i++) {
+            setValueAt(true, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
+        }
+    }
+    public void unselectAll() {
+        for (int i = 0; i < getRowCount(); i++) {
+            setValueAt(false, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
+        }
+    }
 }

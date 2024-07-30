@@ -7,6 +7,8 @@ import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction
 import static org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction.move;
 import static org.openstreetmap.josm.tools.I18n.tr;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
@@ -37,6 +39,18 @@ public class MoveMembershipController {
         view.sourceBtnAddActionListener(actionEvent -> model.setSource(getOneSelectedPrimitive()));
         view.destinationBtnAddActionListener(actionEvent -> model.setDestination(getOneSelectedPrimitive()));
         view.moveBtnAddActionListener(actionEvent -> moveBtnClicked());
+        view.selectAllLabelAddMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                relationTableModel.selectAll();
+            }
+        });
+        view.unselectAllLabelAddMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                relationTableModel.unselectAll();
+            }
+        });
     }
 
     private void moveBtnClicked() {
