@@ -11,7 +11,10 @@ line platform is membership of many relations. Instead of manually clicking just
 3. Select destination object
 4. Click Move
 
-You can also select 2 objects (order matters) before opening window.
+You can also select 2 objects (order matters) before opening window, and it will be preselected in the window.
+
+Another case: You might want to move some memberships from one bus stop to another, but you want to skip specific relations like `public_transport` or `disused:route`. You can easily filter them as below:
+![Preview](media/preview.jpg)
 
 ## License
 [GPLv3](LICENSE)
