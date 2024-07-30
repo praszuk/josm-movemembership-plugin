@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.openstreetmap.josm.gui.MainApplication;
 
 public class MoveMembershipView extends JFrame {
@@ -99,6 +100,10 @@ public class MoveMembershipView extends JFrame {
 
     public void setRelationTableModel(TableModel model) {
         relationTable.setModel(model);
+    }
+
+    public void setRelationTableSorter(TableRowSorter<TableModel> sorter) {
+        relationTable.setRowSorter(sorter);
     }
 
     public void autoResizeColumns() {

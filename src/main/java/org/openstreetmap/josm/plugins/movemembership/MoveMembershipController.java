@@ -70,6 +70,7 @@ public class MoveMembershipController {
     public void initGui() {
         view.initView();
         view.setRelationTableModel(relationTableModel);
+        view.setRelationTableSorter(relationTableModel.getTableRowSorter());
         updateButtons();
         updateRelationTable();
     }

@@ -4,9 +4,12 @@ import static org.openstreetmap.josm.tools.I18n.tr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class RelationTableModel extends DefaultTableModel {
     public static final String COL_MOVE_CHECKBOX  = tr("Move");
@@ -35,6 +38,14 @@ public class RelationTableModel extends DefaultTableModel {
             return Boolean.class;
         }
         return super.getColumnClass(columnIndex);
+    }
+
+    public TableRowSorter<TableModel> getTableRowSorter() {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(this);
+        sorter.setComparator(COLUMNS.indexOf(COL_ID), Comparator.naturalOrder());
+        sorter.setSortable(COLUMNS.indexOf(COL_POSITION), false);
+        sorter.setSortable(COLUMNS.indexOf(COL_ROLE), false);
+        return sorter;
     }
 
     public void addRow(boolean moveCheckbox, long relationId, String roles, String positions, String type, String name) {
