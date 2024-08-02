@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.movemembership;
+package org.openstreetmap.josm.plugins.movemembership.gui;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.movemembership;
+package org.openstreetmap.josm.plugins.movemembership.gui;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 

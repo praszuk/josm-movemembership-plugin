@@ -19,6 +19,9 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.Relation;
 import org.openstreetmap.josm.data.osm.RelationMember;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.plugins.movemembership.gui.MoveMembershipController;
+import org.openstreetmap.josm.plugins.movemembership.gui.MoveMembershipModel;
+import org.openstreetmap.josm.plugins.movemembership.gui.MoveMembershipView;
 import org.openstreetmap.josm.tools.ImageProvider;
 import org.openstreetmap.josm.tools.Logging;
 import org.openstreetmap.josm.tools.Shortcut;
@@ -26,7 +29,7 @@ import org.openstreetmap.josm.tools.Shortcut;
 
 public class MoveMembershipAction extends JosmAction {
     static final String DESCRIPTION = tr("Move object relations memberships to another object.");
-    static final String TITLE = tr("Move object memberships");
+    public static final String TITLE = tr("Move object memberships");
 
     public MoveMembershipAction() {
         super(

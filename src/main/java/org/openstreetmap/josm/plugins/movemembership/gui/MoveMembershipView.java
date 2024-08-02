@@ -1,4 +1,4 @@
-package org.openstreetmap.josm.plugins.movemembership;
+package org.openstreetmap.josm.plugins.movemembership.gui;
 
 import static org.openstreetmap.josm.tools.I18n.tr;
 
@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.plugins.movemembership.MoveMembershipAction;
 
 public class MoveMembershipView extends JFrame {
     final static int HEIGHT = 335;
