@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.openstreetmap.josm.gui.MainApplication;
@@ -132,6 +133,9 @@ public class MoveMembershipView extends JFrame {
     }
     public void excludeTableSelectionAddActionListener(ActionListener listener) {
         excludeSelectionMenuItem.addActionListener(listener);
+    }
+    public void addTableListSelectionListener(ListSelectionListener listener) {
+        relationTable.getSelectionModel().addListSelectionListener(listener);
     }
 
     public void sourceBtnSetText(String text) {

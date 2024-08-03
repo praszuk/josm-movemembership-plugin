@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
+import org.openstreetmap.josm.gui.util.HighlightHelper;
 
 public class MoveMembershipController {
     private final MoveMembershipView view;
@@ -64,6 +65,7 @@ public class MoveMembershipController {
         view.excludeTableSelectionAddActionListener(
             actionEvent -> relationTableModel.setRowInclusion(view.getSelectedRowIndexes(), false)
         );
+        view.addTableListSelectionListener(listSelectionEvent -> highlightSelectedRelations());
     }
 
     private void moveBtnClicked() {
@@ -75,6 +77,17 @@ public class MoveMembershipController {
         view.sourceBtnSetText(getTextForPrimitiveBtn(model.getSource()));
         view.destinationBtnSetText(getTextForPrimitiveBtn(model.getDestination()));
         view.moveBtnSetEnabled(model.getSource() != null && model.getDestination() != null);
+    }
+
+    private void highlightSelectedRelations() {
+        int[] selectedRowIndexes = view.getSelectedRowIndexes();
+        List<Long> selectedRelationIds = relationTableModel.getRelationIdsFromRowIndexes(selectedRowIndexes);
+        List<OsmPrimitive> selectedRelations = getParentRelations(List.of(model.getSource())).stream()
+            .filter(relation -> selectedRelationIds.contains(relation.getUniqueId()))
+            .collect(Collectors.toList());
+
+        HighlightHelper.clearAllHighlighted();
+        new HighlightHelper().highlight(selectedRelations);
     }
 
     private void updateRelationTable() {
