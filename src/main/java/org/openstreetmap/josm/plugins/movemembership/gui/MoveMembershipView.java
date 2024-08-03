@@ -30,8 +30,8 @@ public class MoveMembershipView extends JFrame {
     private final JButton destinationBtn = new JButton();
     private final JButton moveBtn = new JButton(tr("Move"));
     private final JTable relationTable = new JTable();
-    private final JLabel selectAllLabel = new JLabel(tr("Select all"));
-    private final JLabel unselectAllLabel = new JLabel(tr("Unselect all"));
+    private final JLabel includeAllLabel = new JLabel(tr("Include all"));
+    private final JLabel excludeAllLabel = new JLabel(tr("Exclude all"));
 
 
     public void initView() {
@@ -75,18 +75,18 @@ public class MoveMembershipView extends JFrame {
     private JPanel createRelationTablePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel selectPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
+        JPanel includeExcludeAllPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 3));
 
-        selectAllLabel.setForeground(Color.BLUE.darker());
-        selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        unselectAllLabel.setForeground(Color.BLUE.darker());
-        unselectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        includeAllLabel.setForeground(Color.BLUE.darker());
+        includeAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        excludeAllLabel.setForeground(Color.BLUE.darker());
+        excludeAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        selectPanel.add(selectAllLabel);
-        selectPanel.add(new JLabel(" | "));
-        selectPanel.add(unselectAllLabel);
+        includeExcludeAllPanel.add(includeAllLabel);
+        includeExcludeAllPanel.add(new JLabel(" | "));
+        includeExcludeAllPanel.add(excludeAllLabel);
 
-        panel.add(selectPanel, BorderLayout.NORTH);
+        panel.add(includeExcludeAllPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(relationTable), BorderLayout.CENTER);
 
         return panel;
@@ -110,11 +110,11 @@ public class MoveMembershipView extends JFrame {
     public void moveBtnAddActionListener(ActionListener listener) {
         moveBtn.addActionListener(listener);
     }
-    public void selectAllLabelAddMouseListener(MouseListener lister) {
-        selectAllLabel.addMouseListener(lister);
+    public void includeAllLabelAddMouseListener(MouseListener lister) {
+        includeAllLabel.addMouseListener(lister);
     }
-    public void unselectAllLabelAddMouseListener(MouseListener lister) {
-        unselectAllLabel.addMouseListener(lister);
+    public void excludeAllLabelAddMouseListener(MouseListener lister) {
+        excludeAllLabel.addMouseListener(lister);
     }
 
     public void sourceBtnSetText(String text) {

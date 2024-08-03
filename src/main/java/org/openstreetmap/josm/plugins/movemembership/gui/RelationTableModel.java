@@ -52,19 +52,19 @@ public class RelationTableModel extends DefaultTableModel {
         super.addRow(new Object[]{moveCheckbox, relationId, roles, positions, type, name});
     }
 
-    public List<Long> getCheckedRelationIds() {
+    public List<Long> getIncludedRelationIds() {
         return getDataVector().stream()
             .filter(vector -> (boolean) vector.get(COLUMNS.indexOf(COL_MOVE_CHECKBOX)))
             .map(vector -> (long) vector.get(COLUMNS.indexOf(COL_ID)))
             .collect(Collectors.toList());
     }
 
-    public void selectAll() {
+    public void includeAll() {
         for (int i = 0; i < getRowCount(); i++) {
             setValueAt(true, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
         }
     }
-    public void unselectAll() {
+    public void excludeAll() {
         for (int i = 0; i < getRowCount(); i++) {
             setValueAt(false, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
         }

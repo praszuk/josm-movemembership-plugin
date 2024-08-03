@@ -39,22 +39,22 @@ public class MoveMembershipController {
         view.sourceBtnAddActionListener(actionEvent -> model.setSource(getOneSelectedPrimitive()));
         view.destinationBtnAddActionListener(actionEvent -> model.setDestination(getOneSelectedPrimitive()));
         view.moveBtnAddActionListener(actionEvent -> moveBtnClicked());
-        view.selectAllLabelAddMouseListener(new MouseAdapter() {
+        view.includeAllLabelAddMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                relationTableModel.selectAll();
+                relationTableModel.includeAll();
             }
         });
-        view.unselectAllLabelAddMouseListener(new MouseAdapter() {
+        view.excludeAllLabelAddMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                relationTableModel.unselectAll();
+                relationTableModel.excludeAll();
             }
         });
     }
 
     private void moveBtnClicked() {
-        move(model.getSource(), model.getDestination(), relationTableModel.getCheckedRelationIds());
+        move(model.getSource(), model.getDestination(), relationTableModel.getIncludedRelationIds());
         view.closeView();
     }
 
