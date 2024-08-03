@@ -14,7 +14,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -32,6 +34,10 @@ public class MoveMembershipView extends JFrame {
     private final JTable relationTable = new JTable();
     private final JLabel includeAllLabel = new JLabel(tr("Include all"));
     private final JLabel excludeAllLabel = new JLabel(tr("Exclude all"));
+
+    private final JPopupMenu popupMenu = new JPopupMenu();
+    private final JMenuItem includeSelectionMenuItem = new JMenuItem(tr("Include selection"));
+    private final JMenuItem excludeSelectionMenuItem = new JMenuItem(tr("Exclude selection"));
 
 
     public void initView() {
@@ -87,6 +93,11 @@ public class MoveMembershipView extends JFrame {
         includeExcludeAllPanel.add(excludeAllLabel);
 
         panel.add(includeExcludeAllPanel, BorderLayout.NORTH);
+
+        popupMenu.add(includeSelectionMenuItem);
+        popupMenu.add(excludeSelectionMenuItem);
+        relationTable.setComponentPopupMenu(popupMenu);
+
         panel.add(new JScrollPane(relationTable), BorderLayout.CENTER);
 
         return panel;
@@ -116,6 +127,12 @@ public class MoveMembershipView extends JFrame {
     public void excludeAllLabelAddMouseListener(MouseListener lister) {
         excludeAllLabel.addMouseListener(lister);
     }
+    public void includeTableSelectionAddActionListener(ActionListener listener) {
+        includeSelectionMenuItem.addActionListener(listener);
+    }
+    public void excludeTableSelectionAddActionListener(ActionListener listener) {
+        excludeSelectionMenuItem.addActionListener(listener);
+    }
 
     public void sourceBtnSetText(String text) {
         sourceBtn.setText(text);
@@ -130,6 +147,10 @@ public class MoveMembershipView extends JFrame {
 
     public void setRelationTableSorter(TableRowSorter<TableModel> sorter) {
         relationTable.setRowSorter(sorter);
+    }
+
+    public int[] getSelectedRowIndexes() {
+        return relationTable.getSelectedRows();
     }
 
     public void autoResizeColumns() {

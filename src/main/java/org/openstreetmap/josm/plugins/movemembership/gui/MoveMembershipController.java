@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.openstreetmap.josm.data.osm.OsmPrimitive;
 
 public class MoveMembershipController {
@@ -42,15 +43,27 @@ public class MoveMembershipController {
         view.includeAllLabelAddMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                relationTableModel.includeAll();
+                relationTableModel.setRowInclusion(
+                    IntStream.range(0, relationTableModel.getRowCount()).toArray(),
+                    true
+                );
             }
         });
         view.excludeAllLabelAddMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                relationTableModel.excludeAll();
+                relationTableModel.setRowInclusion(
+                    IntStream.range(0, relationTableModel.getRowCount()).toArray(),
+                    false
+                );
             }
         });
+        view.includeTableSelectionAddActionListener(
+            actionEvent -> relationTableModel.setRowInclusion(view.getSelectedRowIndexes(), true)
+        );
+        view.excludeTableSelectionAddActionListener(
+            actionEvent -> relationTableModel.setRowInclusion(view.getSelectedRowIndexes(), false)
+        );
     }
 
     private void moveBtnClicked() {

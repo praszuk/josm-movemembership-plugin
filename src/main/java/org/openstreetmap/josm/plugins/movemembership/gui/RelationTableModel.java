@@ -59,14 +59,9 @@ public class RelationTableModel extends DefaultTableModel {
             .collect(Collectors.toList());
     }
 
-    public void includeAll() {
-        for (int i = 0; i < getRowCount(); i++) {
-            setValueAt(true, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
-        }
-    }
-    public void excludeAll() {
-        for (int i = 0; i < getRowCount(); i++) {
-            setValueAt(false, i, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
+    public void setRowInclusion(int[] rowIndexes, boolean include) {
+        for (int rowIndex : rowIndexes) {
+            setValueAt(include, rowIndex, COLUMNS.indexOf(COL_MOVE_CHECKBOX));
         }
     }
 }
